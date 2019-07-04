@@ -21,7 +21,6 @@ public class AccountController_e2eTest {
     @LocalServerPort
     private Integer port;
 
-
     @Test
     public void getAccountByUserIdTest_404NotFoundTest() {
         String response =  given()

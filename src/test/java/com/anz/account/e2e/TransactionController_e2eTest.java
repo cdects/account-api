@@ -18,8 +18,7 @@ public class TransactionController_e2eTest {
     @LocalServerPort
     private Integer port;
 
-
-    @Test
+   @Test
     public void getTransactionByAccountNumberTest_404NotFoundTest() {
         String response =  given()
                 .port(port)
@@ -55,7 +54,7 @@ public class TransactionController_e2eTest {
                 .get("/api/v1/accounts/uooo/transactions")
                 .then()
                 .assertThat()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .statusCode(HttpStatus.OK.value())
                 .contentType(ContentType.JSON)
                 .extract().body().asString();
         Assert.assertFalse(response.contains("a10001"));

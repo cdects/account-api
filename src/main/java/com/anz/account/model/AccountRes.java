@@ -3,13 +3,14 @@ package com.anz.account.model;
 import com.anz.account.types.Currency;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.hateoas.ResourceSupport;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 
 @ApiModel(description = "Account Response")
-public class AccountRes {
+public class AccountRes extends ResourceSupport {
 
     @ApiModelProperty(value = "Account number", example = "A10001")
     private String accountNumber;
@@ -81,5 +82,17 @@ public class AccountRes {
     public AccountRes openingAvailableBalance(BigDecimal openingAvailableBalance) {
         this.openingAvailableBalance = openingAvailableBalance;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "AccountRes{" +
+                "accountNumber='" + accountNumber + '\'' +
+                ", accountName='" + accountName + '\'' +
+                ", accountType='" + accountType + '\'' +
+                ", balanceDate=" + balanceDate +
+                ", currency=" + currency +
+                ", openingAvailableBalance=" + openingAvailableBalance +
+                '}';
     }
 }

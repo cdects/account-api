@@ -48,6 +48,8 @@ Local Tests : Junit and integration tests are executed using maven test command 
 
 Code Coverage : code coverage jacoco report is generated in target directory @/project-root/target/jacoco/index.html
 
+Sample responses can be found @/src/test/resources
+
 Database
 ---------
 In memory database H2 can be accessed while application is running following URL.

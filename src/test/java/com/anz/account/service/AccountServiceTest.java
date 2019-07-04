@@ -77,10 +77,7 @@ public class AccountServiceTest {
         assertThat(accounts.size()).isGreaterThan(0);
     }
 
-
-
-
-   private List<Account>  mockAccounts(){
+    private List<Account>  mockAccounts(){
         Account account1 = new Account("a10001",
                 "AUDSaving1",
                 AccountType.SAVING,

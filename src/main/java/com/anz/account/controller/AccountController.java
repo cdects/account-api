@@ -1,7 +1,7 @@
 package com.anz.account.controller;
 
-import com.anz.account.exception.ErrorMessage;
 import com.anz.account.model.AccountRes;
+import com.anz.account.model.Message;
 import com.anz.account.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,15 +40,22 @@ public class AccountController {
     public @ResponseBody ResponseEntity<?> getUserAccounts(@RequestParam(value = "page", defaultValue = "0") @PositiveOrZero int page,
                                                    @RequestParam(value = "size", defaultValue = "20") @Max(value = 100) @Positive int size,
                                                    @PathVariable String userId){
-
+        log.debug("Request in AccountController::getUserAccounts:userId: " + userId);
         List<AccountRes> accounts = accountService.getUserAccounts(userId, PageRequest.of(page, size));
-        log.info(accountInfo, accounts.size(), userId);
         if(accounts.size() > 0){
-        Resources<AccountRes> resources = new Resources<AccountRes>(accounts);
-        resources.add(linkTo(methodOn(AccountController.class).getUserAccounts(page, size, userId)).withSelfRel());
+
+            Resources<AccountRes> resources = new Resources<>(accounts);
+            resources.add(linkTo(methodOn(AccountController.class).getUserAccounts(page, size, userId)).withSelfRel());
+
+            //Add 'transactions' url/link to account response for navigation purpose
+            resources.forEach(accountRes -> {accountRes.add(linkTo(methodOn(TransactionController.class).getTransactions(page, size, accountRes.getAccountNumber())).withRel("transactions"));});
+
+            log.debug("Response out AccountController::getUserAccounts:userId: " + userId + " accounts : " + accounts);
             return ResponseEntity.ok().body(resources);
-        }else{
-             return ResponseEntity.ok().body( new ErrorMessage(accountNotFound + userId, HttpStatus.OK));
+
+        } else {
+            log.info(accountNotFound + userId, HttpStatus.OK);
+            return ResponseEntity.ok().body( new Message(accountNotFound + userId, HttpStatus.OK));
         }
     }
 

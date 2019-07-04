@@ -1,0 +1,34 @@
+{
+  "_embedded" : {
+    "accountReses" : [ {
+      "accountNumber" : "a10001",
+      "accountName" : "AUDSaving1",
+      "accountType" : "SAVING",
+      "balanceDate" : "2019-07-04",
+      "currency" : "AUD",
+      "openingAvailableBalance" : 10000.10,
+      "_links" : {
+        "transactions" : {
+          "href" : "http://localhost:8080/api/v1/accounts/a10001/transactions?page=0&size=20"
+        }
+      }
+    }, {
+      "accountNumber" : "a10003",
+      "accountName" : "AUDCurrent3",
+      "accountType" : "CURRENT",
+      "balanceDate" : "2019-07-04",
+      "currency" : "SDG",
+      "openingAvailableBalance" : 10001.10,
+      "_links" : {
+        "transactions" : {
+          "href" : "http://localhost:8080/api/v1/accounts/a10003/transactions?page=0&size=20"
+        }
+      }
+    } ]
+  },
+  "_links" : {
+    "self" : {
+      "href" : "http://localhost:8080/api/v1/accounts/u001?page=0&size=20"
+    }
+  }
+}

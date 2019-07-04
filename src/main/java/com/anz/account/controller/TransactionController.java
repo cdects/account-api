@@ -1,7 +1,7 @@
 package com.anz.account.controller;
 
 
-import com.anz.account.exception.ErrorMessage;
+import com.anz.account.model.Message;
 import com.anz.account.model.TransactionRes;
 import com.anz.account.service.AccountService;
 import com.anz.account.service.TransactionService;
@@ -43,18 +43,23 @@ public class TransactionController {
     public @ResponseBody ResponseEntity<?> getTransactions(@RequestParam(value = "page", defaultValue = "0") @PositiveOrZero int page,
                                                              @RequestParam(value = "size", defaultValue = "20") @Max(value = 100) @Positive int size,
                                                              @PathVariable String accountNumber){
-
+        log.debug("Request in TransactionController::getTransactions:accountNumber: " + accountNumber);
         List<TransactionRes> transactions = transactionService.getTransactions(accountNumber, PageRequest.of(page, size));
-        log.info(transactionInfo, transactions.size(), accountNumber);
-        if(transactions.size() > 0){
-        Resources<TransactionRes> resources = new Resources<TransactionRes>(transactions);
-        resources.add(linkTo(methodOn(TransactionController.class).getTransactions(page, size, accountNumber)).withSelfRel());
-        resources.add(linkTo(methodOn(AccountController.class).getUserAccounts(page, size, accountService.getAccountByAccountNumber(accountNumber).getUserId())).withRel("accounts"));
-            return ResponseEntity.ok().body(resources);
-        }else{
-            return ResponseEntity.ok().body( new ErrorMessage(transactionNotFound + accountNumber, HttpStatus.OK));
-        }
 
+        if(transactions.size() > 0) {
+            Resources<TransactionRes> resources = new Resources<TransactionRes>(transactions);
+            resources.add(linkTo(methodOn(TransactionController.class).getTransactions(page, size, accountNumber)).withSelfRel());
+
+            //Add 'accounts' url/link to transactions response for traversing back on accounts listing
+            resources.add(linkTo(methodOn(AccountController.class).getUserAccounts(page, size, accountService.getAccountByAccountNumber(accountNumber).getUserId())).withRel("accounts"));
+
+            log.debug("Response out TransactionController::getTransactions:accountNumber: " + accountNumber + " transactions : "+transactions);
+            return ResponseEntity.ok().body(resources);
+
+        } else {
+            log.info(transactionNotFound + accountNumber, HttpStatus.OK);
+            return ResponseEntity.ok().body( new Message(transactionNotFound + accountNumber, HttpStatus.OK));
+        }
    }
 
 }

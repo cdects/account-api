@@ -4,12 +4,13 @@ import com.anz.account.types.Currency;
 import com.anz.account.types.DebitCredit;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.hateoas.ResourceSupport;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @ApiModel(description = "Transaction Response")
-public class TransactionRes {
+public class TransactionRes  extends ResourceSupport {
 
     @ApiModelProperty(value = "Account number", example = "100-111-100")
     private String accountNumber;
@@ -106,5 +107,19 @@ public class TransactionRes {
     public TransactionRes narrative(String narrative) {
         this.narrative = narrative;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "TransactionRes{" +
+                "accountNumber='" + accountNumber + '\'' +
+                ", accountName='" + accountName + '\'' +
+                ", date=" + date +
+                ", currency=" + currency +
+                ", debit=" + debit +
+                ", credit=" + credit +
+                ", debitCredit=" + debitCredit +
+                ", narrative='" + narrative + '\'' +
+                '}';
     }
 }

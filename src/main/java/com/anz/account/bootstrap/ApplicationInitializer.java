@@ -39,7 +39,7 @@ public class ApplicationInitializer implements ApplicationListener<ContextRefres
         Account account1 = new Account("a10001",
                 "AUDSaving1",
                 AccountType.SAVING,
-                LocalDate.of(2019, Month.APRIL, 28),
+                LocalDate.now(),
                 Currency.AUD,
                 BigDecimal.valueOf(10000.10),
                 "u001");
@@ -47,10 +47,19 @@ public class ApplicationInitializer implements ApplicationListener<ContextRefres
         Account account2 = new Account("a10002",
                 "AUDCurrent2",
                 AccountType.CURRENT,
-                LocalDate.of(2019, Month.APRIL, 29),
+                LocalDate.now(),
                 Currency.AUD,
                 BigDecimal.valueOf(10001.10),
                 "u002");
+
+
+        Account account3 = new Account("a10003",
+                "AUDCurrent3",
+                AccountType.CURRENT,
+                LocalDate.now(),
+                Currency.SDG,
+                BigDecimal.valueOf(10001.10),
+                "u001");
 
         Transaction t1 = new Transaction(1L,
                 LocalDate.of(2019, Month.APRIL, 28 ),
@@ -79,16 +88,43 @@ public class ApplicationInitializer implements ApplicationListener<ContextRefres
                 "transaction description",
                 account1);
 
+        Transaction t5 = new Transaction(5l,
+                LocalDate.of(2019, Month.APRIL, 29 ),
+                Currency.AUD,
+                BigDecimal.valueOf(50),
+                BigDecimal.ZERO,
+                DebitCredit.DEBIT ,
+                "transaction description",
+                account1);
+
+        Transaction t6 = new Transaction(6l,
+                LocalDate.of(2019, Month.APRIL, 29 ),
+                Currency.AUD,
+                BigDecimal.valueOf(50),
+                BigDecimal.ZERO,
+                DebitCredit.DEBIT ,
+                "transaction description",
+                account1);
+
+        Transaction t7 = new Transaction(7l,
+                LocalDate.of(2019, Month.APRIL, 29 ),
+                Currency.AUD,
+                BigDecimal.valueOf(50),
+                BigDecimal.ZERO,
+                DebitCredit.DEBIT ,
+                "transaction description",
+                account1);
+
         Transaction t4 = new Transaction(4l,
                 LocalDate.of(2019, Month.APRIL, 30 ),
-                Currency.AUD,
+                Currency.SDG,
                 BigDecimal.valueOf(50),
                 BigDecimal.ZERO,
                 DebitCredit.DEBIT,
                 "transaction description",
                 account2);
 
-        accountsRepository.saveAll(Arrays.asList(account1, account2));
-        transactionRepository.saveAll(Arrays.asList(t1, t2,t3,t4));
+        accountsRepository.saveAll(Arrays.asList(account1, account2, account3));
+        transactionRepository.saveAll(Arrays.asList(t1, t2, t3, t4, t5, t6));
     }
 }
